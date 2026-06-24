@@ -39,10 +39,14 @@ export default function GaussianViewer({
           dynamicScene: false,
         });
 
+        // Progressive (streaming) load is only supported for .ksplat/.splat.
+        // For raw .ply the whole file is parsed at once, so keep it off.
+        const isPly = /\.ply(\?|#|$)/i.test(src);
+
         await viewer.addSplatScene(src, {
           splatAlphaRemovalThreshold: 5,
           showLoadingUI: false,
-          progressiveLoad: true,
+          progressiveLoad: !isPly,
           onProgress: (percent) => {
             if (!disposed) setProgress(Math.round(percent));
           },

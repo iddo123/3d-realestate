@@ -20,3 +20,7 @@ next-env.d.ts
 /playwright-report
 /blob-report
 /.playwright
+
+# Large 3D scans — too big for git (use Git LFS or external hosting to deploy)
+/public/scans/*
+!/public/scans/README.md

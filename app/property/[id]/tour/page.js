@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { properties, getProperty } from "../../../../lib/properties";
+import { resolveScanUrl } from "../../../../lib/scanUrl";
 // Client component; all WebGL/three.js work is deferred to useEffect so it's SSR-safe.
 import GaussianViewer from "../../../../components/GaussianViewer";
 
@@ -35,9 +36,9 @@ export default function TourPage({ params }) {
       </div>
 
       {/* Viewer fills the rest. Uses the property's own scan when set
-          (property.splat), otherwise falls back to the sample scene. */}
+          (resolved from property.splat), otherwise falls back to the sample. */}
       <div className="relative flex-1 p-3 sm:p-4">
-        <GaussianViewer src={property.splat} />
+        <GaussianViewer src={resolveScanUrl(property.splat)} />
       </div>
     </main>
   );
