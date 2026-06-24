@@ -7,14 +7,14 @@ const columns = [
   },
   {
     title: "כלים ומידע",
-    links: ["מחירון נדל\"ן", "מידע על שכונות", "הערכת שווי", "מגזין 3D", "מדריכים"],
+    links: ["מחירון נדל\"ן", "מידע על שכונות", "הערכת שווי", "מגזין רגבים", "מדריכים"],
   },
   {
     title: "ערים מובילות",
     links: ["תל אביב", "ירושלים", "חיפה", "רמת גן", "באר שבע"],
   },
   {
-    title: "3D",
+    title: "רגבים",
     links: ["אודות", "צרו קשר", "פרסום באתר", "דרושים", "תנאי שימוש"],
   },
 ];
@@ -26,7 +26,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-8 md:grid-cols-5">
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-1 text-2xl font-extrabold text-white">
-              <span>3D</span>
+              <span>רגבים</span>
               <span className="inline-block h-2.5 w-2.5 rounded-full bg-teal" />
             </div>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/60">
@@ -54,7 +54,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-sm text-white/50 sm:flex-row">
-          <p>© {new Date().getFullYear()} 3D – כל הזכויות שמורות. אתר הדגמה.</p>
+          <p>© {new Date().getFullYear()} רגבים – כל הזכויות שמורות. אתר הדגמה.</p>
           <div className="flex gap-5">
             <a href="#" className="hover:text-teal">תנאי שימוש</a>
             <a href="#" className="hover:text-teal">מדיניות פרטיות</a>

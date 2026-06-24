@@ -1,4 +1,4 @@
-# 3D · נדל"ן עם סיור תלת-ממד
+# רגבים · נדל"ן עם סיור תלת-ממד
 
 A Madlan-style Israeli real-estate site (Hebrew, RTL) built with **Next.js 14** and **Tailwind CSS**, featuring an example property with an interactive **3D Gaussian Splatting** tour rendered in the browser.
 

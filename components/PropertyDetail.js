@@ -134,10 +134,10 @@ export default function PropertyDetail({ property }) {
         <aside className="h-fit rounded-xl2 border border-black/5 bg-white p-6 shadow-card lg:sticky lg:top-20">
           <div className="flex items-center gap-3">
             <span className="grid h-12 w-12 place-items-center rounded-full bg-teal-50 text-sm font-extrabold text-teal-700">
-              3D
+              רג
             </span>
             <div>
-              <div className="font-bold text-ink">סוכן 3D נדל"ן</div>
+              <div className="font-bold text-ink">סוכן רגבים נדל"ן</div>
               <div className="text-sm text-ink-faint">משווק בלעדי</div>
             </div>
           </div>

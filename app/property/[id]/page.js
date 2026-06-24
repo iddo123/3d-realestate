@@ -10,8 +10,8 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }) {
   const property = getProperty(params.id);
-  if (!property) return { title: "נכס לא נמצא · 3D" };
-  return { title: `${property.address} · 3D` };
+  if (!property) return { title: "נכס לא נמצא · רגבים" };
+  return { title: `${property.address} · רגבים` };
 }
 
 export default function PropertyPage({ params }) {

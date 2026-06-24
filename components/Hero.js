@@ -72,17 +72,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Quick chips */}
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          {["תל אביב", "ירושלים", "חיפה", "רמת גן", "הרצליה", "באר שבע"].map((c) => (
-            <button
-              key={c}
-              className="rounded-full border border-white/40 bg-white/10 px-4 py-1.5 text-sm font-medium text-white backdrop-blur transition-colors hover:bg-white/20"
-            >
-              {c}
-            </button>
-          ))}
-        </div>
       </div>
     </section>
   );

@@ -16,7 +16,7 @@ export default function Header() {
         {/* Logo + nav (RTL: start side is the right) */}
         <div className="flex items-center gap-7">
           <a href="#" className="flex items-center gap-1 text-2xl font-extrabold text-ink">
-            <span>3D</span>
+            <span>רגבים</span>
             <span className="inline-block h-2.5 w-2.5 rounded-full bg-teal" />
           </a>
           <nav className="hidden items-center gap-6 md:flex">

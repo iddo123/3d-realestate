@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import Cities from "../components/Cities";
+import PropertyMap from "../components/PropertyMap";
 import Listings from "../components/Listings";
 import Tools from "../components/Tools";
 import CtaBand from "../components/CtaBand";
@@ -12,6 +13,7 @@ export default function Home() {
       <Header />
       <Hero />
       <Cities />
+      <PropertyMap />
       <Listings />
       <Tools />
       <CtaBand />

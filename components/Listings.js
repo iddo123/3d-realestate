@@ -20,15 +20,21 @@ export default function Listings() {
         <div className="mb-8 flex items-end justify-between">
           <div>
             <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">
-              נכס מומלץ
+              נכסים מומלצים
             </h2>
             <p className="mt-2 text-ink-soft">
-              דירה נבחרת · עם סיור תלת-ממד אינטראקטיבי
+              דירות נבחרות · עם סיור תלת-ממד אינטראקטיבי
             </p>
           </div>
+          <a
+            href="#"
+            className="hidden text-[15px] font-semibold text-teal hover:text-teal-700 sm:block"
+          >
+            לכל הנכסים ←
+          </a>
         </div>
 
-        <div className="mx-auto grid max-w-sm grid-cols-1 gap-5">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {properties.map((l) => (
             <Link
               key={l.id}
@@ -97,10 +103,10 @@ export default function Listings() {
 
                 <div className="mt-4 flex items-center gap-2 border-t border-black/5 pt-3">
                   <span className="grid h-7 w-7 place-items-center rounded-full bg-teal-50 text-xs font-bold text-teal-700">
-                    3D
+                    רג
                   </span>
                   <span className="text-xs text-ink-soft">
-                    באמצעות סוכן 3D · עודכן היום
+                    באמצעות סוכן רגבים · עודכן היום
                   </span>
                 </div>
               </div>

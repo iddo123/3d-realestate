@@ -14,3 +14,9 @@ next-env.d.ts
 # Vercel: ignore local state but keep the project link committed
 .vercel/*
 !.vercel/project.json
+
+# Playwright test artifacts
+/test-results
+/playwright-report
+/blob-report
+/.playwright
