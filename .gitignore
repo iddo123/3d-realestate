@@ -6,5 +6,11 @@
 *.pem
 npm-debug.log*
 .env*.local
-.vercel
 next-env.d.ts
+
+# Local Netlify folder (CLI state)
+.netlify
+
+# Vercel: ignore local state but keep the project link committed
+.vercel/*
+!.vercel/project.json
