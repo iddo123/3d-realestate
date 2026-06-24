@@ -1,7 +1,7 @@
 # Scan binaries: ignore everything in public/scans EXCEPT the deployed lite scan,
 # which is served fast from Vercel's CDN (same-origin, no external round-trip).
 public/scans/*
-!public/scans/Model-lite.ksplat
+!public/scans/Model.ksplat
 
 # Dev-only files that don't belong in the deployment
 scripts/
