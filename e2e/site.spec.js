@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+﻿import { test, expect } from "@playwright/test";
 
 test.describe("רגבים homepage", () => {
   test("shows the Regavim brand and an RTL document", async ({ page }) => {
@@ -47,6 +47,37 @@ test.describe("property map", () => {
     const item = page.getByTestId("result-item").first();
     await item.getByRole("link", { name: /צפייה בנכס/ }).click();
     await expect(page).toHaveURL(/\/property\/dizengoff-120-tlv/);
+  });
+});
+
+test.describe("floating questions button", () => {
+  test("opens a menu with Q&A and a coming-soon voice tour", async ({ page }) => {
+    await page.goto("/property/dizengoff-120-tlv");
+    const fab = page.getByRole("button", { name: "שאלו את הסוכן הדיגיטלי" });
+    await expect(fab).toBeVisible();
+    await fab.click();
+    await expect(page.getByRole("dialog", { name: "במה אפשר לעזור" })).toBeVisible();
+    await expect(page.getByText("שאלות ותשובות")).toBeVisible();
+    await expect(page.getByText("בקרוב")).toBeVisible(); // voice tour not built yet
+  });
+
+  test("Q&A chat answers a question from the house data", async ({ page }) => {
+    await page.goto("/property/dizengoff-120-tlv");
+    await page.getByRole("button", { name: "שאלו את הסוכן הדיגיטלי" }).click();
+    await page.getByText("שאלות ותשובות").click();
+    await expect(page.getByRole("dialog", { name: "שאלות ותשובות" })).toBeVisible();
+    // Type with real keystrokes so the onKeyDown handler is exercised
+    const box = page.getByPlaceholder("כתבו שאלה…");
+    await box.pressSequentially("מה המחיר?");
+    await expect(box).toHaveValue("מה המחיר?"); // no characters swallowed
+    await page.getByRole("button", { name: "שליחה" }).click();
+    // The rule-based matcher answers locally with the property's price
+    await expect(page.getByText("3,250,000")).toBeVisible();
+  });
+
+  test("is also present during the 3D tour", async ({ page }) => {
+    await page.goto("/property/dizengoff-120-tlv/tour");
+    await expect(page.getByRole("button", { name: "שאלו את הסוכן הדיגיטלי" })).toBeVisible();
   });
 });
 

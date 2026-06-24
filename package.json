@@ -12,6 +12,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.106.0",
     "@mkkellogg/gaussian-splats-3d": "^0.4.7",
     "leaflet": "^1.9.4",
     "next": "^14.2.35",

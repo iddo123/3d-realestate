@@ -4,6 +4,7 @@ import { properties, getProperty } from "../../../../lib/properties";
 import { resolveScanUrl } from "../../../../lib/scanUrl";
 // Client component; all WebGL/three.js work is deferred to useEffect so it's SSR-safe.
 import GaussianViewer from "../../../../components/GaussianViewer";
+import QuestionsButton from "../../../../components/QuestionsButton";
 
 export function generateStaticParams() {
   return properties.map((p) => ({ id: p.id }));
@@ -40,6 +41,9 @@ export default function TourPage({ params }) {
       <div className="relative flex-1 p-3 sm:p-4">
         <GaussianViewer src={resolveScanUrl(property.splat)} />
       </div>
+
+      {/* Floating "ask a question" button, also available during the tour */}
+      <QuestionsButton property={property} />
     </main>
   );
 }

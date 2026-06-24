@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import NeighborhoodInfo from "./NeighborhoodInfo";
 import NearbyAmenities from "./NearbyAmenities";
+import QuestionsButton from "./QuestionsButton";
 
 function Spec({ label, value }) {
   return (
@@ -160,6 +161,9 @@ export default function PropertyDetail({ property }) {
           </button>
         </aside>
       </div>
+
+      {/* Floating "ask a question" button */}
+      <QuestionsButton property={property} />
     </div>
   );
 }
