@@ -11,9 +11,14 @@ A Madlan-style Israeli real-estate site (Hebrew, RTL) built with **Next.js 14** 
 ## ✨ Screenshots
 
 ### Homepage
-A right-to-left landing page with a search hero, city tiles, a featured property, and tool sections — in Madlan's signature teal look.
+A right-to-left landing page with a search hero, an interactive property map, a featured-listings grid, and tool sections — in Madlan's signature teal look.
 
 ![Homepage](docs/screenshots/home.png)
+
+### Property map
+A Leaflet / OpenStreetMap map with price-pin markers and free-text filtering (by city, neighborhood, feature, and more); each pin links through to its property.
+
+![Property map](docs/screenshots/map.png)
 
 ### Property page
 Image gallery with thumbnails, full description, specs, feature chips, an agent contact box, and two entry points into the 3D tour.
@@ -21,7 +26,7 @@ Image gallery with thumbnails, full description, specs, feature chips, an agent 
 ![Property detail page](docs/screenshots/property.png)
 
 ### 3D tour (Gaussian Splatting)
-A full-screen WebGL viewer that streams a `.splat` scene with orbit / zoom / pan controls.
+A full-screen WebGL viewer that streams a `.ksplat` scene with orbit / zoom / pan controls.
 
 ![3D Gaussian Splatting tour](docs/screenshots/tour.png)
 

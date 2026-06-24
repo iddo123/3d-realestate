@@ -5,16 +5,7 @@ const BASE = "http://localhost:3000";
 const OUT = "docs/screenshots";
 mkdirSync(OUT, { recursive: true });
 
-const browser = await chromium.launch({
-  headless: true,
-  args: [
-    "--use-gl=angle",
-    "--use-angle=swiftshader",
-    "--enable-unsafe-swiftshader",
-    "--ignore-gpu-blocklist",
-  ],
-});
-
+const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({
   viewport: { width: 1440, height: 900 },
   deviceScaleFactor: 2,
@@ -28,28 +19,21 @@ async function shoot(name, path, { full = false, wait = 1500 } = {}) {
   console.log(`  saved ${OUT}/${name}.png`);
 }
 
-// 1. Homepage (full page)
+// 1. Homepage (full page) — brand רגבים, hero, map, listings, tools
 await shoot("home", "/", { full: true });
 
 // 2. Property detail page (full page)
 await shoot("property", "/property/dizengoff-120-tlv", { full: true });
 
-// 3. 3D Gaussian Splatting tour — wait for the scene to finish loading
-console.log("→ tour: /property/dizengoff-120-tlv/tour");
-await page.goto(`${BASE}/property/dizengoff-120-tlv/tour`, {
-  waitUntil: "domcontentloaded",
-  timeout: 60000,
-});
-try {
-  // The controls hint appears only once the viewer reports "ready"
-  await page.getByText("גרירה = סיבוב").waitFor({ timeout: 90000 });
-  console.log("  viewer ready");
-} catch {
-  console.log("  viewer not confirmed ready, capturing anyway");
-}
-await page.waitForTimeout(4000);
-await page.screenshot({ path: `${OUT}/tour.png` });
-console.log(`  saved ${OUT}/tour.png`);
+// 3. Map section close-up — wait for Leaflet tiles to load
+console.log("→ map: / (map section)");
+await page.goto(`${BASE}/`, { waitUntil: "networkidle", timeout: 60000 });
+const map = page.getByTestId("property-map");
+await map.scrollIntoViewIfNeeded();
+await page.locator(".leaflet-tile").first().waitFor({ timeout: 30000 });
+await page.waitForTimeout(2500);
+await map.screenshot({ path: `${OUT}/map.png` });
+console.log(`  saved ${OUT}/map.png`);
 
 await browser.close();
 console.log("done");
