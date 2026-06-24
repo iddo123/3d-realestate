@@ -34,9 +34,10 @@ export default function TourPage({ params }) {
         <div className="text-sm font-extrabold text-teal-700">{property.price}</div>
       </div>
 
-      {/* Viewer fills the rest */}
+      {/* Viewer fills the rest. Uses the property's own scan when set
+          (property.splat), otherwise falls back to the sample scene. */}
       <div className="relative flex-1 p-3 sm:p-4">
-        <GaussianViewer />
+        <GaussianViewer src={property.splat} />
       </div>
     </main>
   );

@@ -1,6 +1,5 @@
 import Header from "../components/Header";
 import Hero from "../components/Hero";
-import Cities from "../components/Cities";
 import PropertyMap from "../components/PropertyMap";
 import Listings from "../components/Listings";
 import Tools from "../components/Tools";
@@ -12,7 +11,6 @@ export default function Home() {
     <main className="min-h-screen bg-white">
       <Header />
       <Hero />
-      <Cities />
       <PropertyMap />
       <Listings />
       <Tools />
