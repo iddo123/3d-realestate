@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import NeighborhoodInfo from "./NeighborhoodInfo";
+import NearbyAmenities from "./NearbyAmenities";
 
 function Spec({ label, value }) {
   return (
@@ -112,6 +114,12 @@ export default function PropertyDetail({ property }) {
               ))}
             </div>
           </div>
+
+          {/* Neighbourhood knowledge + relevant external resources */}
+          <NeighborhoodInfo property={property} />
+
+          {/* Live nearby amenities from OpenStreetMap */}
+          <NearbyAmenities lat={property.lat} lng={property.lng} />
 
           {/* 3D viewer call-to-action card */}
           <Link
