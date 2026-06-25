@@ -15,6 +15,19 @@ function SearchIcon({ className }) {
 
 export default function Hero() {
   const [active, setActive] = useState(0);
+  const [query, setQuery] = useState("");
+
+  function submit(e) {
+    e.preventDefault();
+    if (typeof window === "undefined") return;
+    // Hand the query to the smart-search section and scroll to it.
+    window.dispatchEvent(
+      new CustomEvent("regavim:search", { detail: query.trim() })
+    );
+    document
+      .getElementById("smart-search")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
   return (
     <section className="relative">
@@ -56,20 +69,28 @@ export default function Hero() {
             ))}
           </div>
 
-          {/* Input row */}
-          <div className="flex items-center gap-2 rounded-xl2 rounded-tl-none bg-white p-2 shadow-search">
+          {/* Input row — natural-language search, wired to the smart-search section */}
+          <form
+            onSubmit={submit}
+            className="flex items-center gap-2 rounded-xl2 rounded-tl-none bg-white p-2 shadow-search"
+          >
             <div className="flex flex-1 items-center gap-2 px-3">
               <SearchIcon className="h-5 w-5 shrink-0 text-ink-faint" />
               <input
                 type="text"
-                placeholder="עיר, שכונה, רחוב או מספר נכס"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="לדוגמה: דירת 4 חדרים בתל אביב עם חניה עד 3.5 מיליון…"
                 className="w-full bg-transparent py-3 text-[15px] text-ink placeholder:text-ink-faint focus:outline-none"
               />
             </div>
-            <button className="flex items-center gap-2 rounded-xl bg-teal px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-teal-600">
+            <button
+              type="submit"
+              className="flex items-center gap-2 rounded-xl bg-teal px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-teal-600"
+            >
               חיפוש
             </button>
-          </div>
+          </form>
         </div>
 
       </div>

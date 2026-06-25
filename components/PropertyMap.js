@@ -17,8 +17,19 @@ export default function PropertyMap() {
   const [ready, setReady] = useState(false);
   const [query, setQuery] = useState("");
 
+  const inputRef = useRef(null);
   const results = useMemo(() => searchProperties(query), [query]);
   const chips = useMemo(() => summarizeQuery(query), [query]);
+
+  // Receive a query from the hero search bar.
+  useEffect(() => {
+    function onSearch(e) {
+      setQuery(typeof e.detail === "string" ? e.detail : "");
+      inputRef.current?.focus();
+    }
+    window.addEventListener("regavim:search", onSearch);
+    return () => window.removeEventListener("regavim:search", onSearch);
+  }, []);
 
   // Initialise the Leaflet map once (client-only — Leaflet touches window).
   useEffect(() => {
@@ -104,7 +115,7 @@ export default function PropertyMap() {
   }
 
   return (
-    <section className="container-px py-16">
+    <section id="smart-search" className="container-px scroll-mt-20 py-16">
       <div className="mb-6 text-center">
         <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">
           חיפוש חכם בטקסט חופשי
@@ -121,6 +132,7 @@ export default function PropertyMap() {
           <path d="m20 20-3.5-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
         </svg>
         <input
+          ref={inputRef}
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}

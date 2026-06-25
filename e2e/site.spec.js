@@ -14,6 +14,15 @@ test.describe("רגבים homepage", () => {
     const hero = page.locator("section").first();
     await expect(hero.getByRole("button", { name: "ירושלים" })).toHaveCount(0);
   });
+
+  test("hero search drives the smart-search results", async ({ page }) => {
+    await page.goto("/");
+    const hero = page.locator("section").first();
+    await hero.locator("input").fill("דירה בתל אביב עד 3.5 מיליון");
+    await hero.getByRole("button", { name: "חיפוש" }).click();
+    await expect(page.getByText("הבנו:")).toBeVisible();
+    await expect(page.getByTestId("result-count")).toContainText("נמצאו 1 נכסים");
+  });
 });
 
 test.describe("property map", () => {
@@ -28,7 +37,7 @@ test.describe("property map", () => {
 
   test("free-text filter narrows the results", async ({ page }) => {
     await page.goto("/");
-    const search = page.getByPlaceholder(/לדוגמה/);
+    const search = page.locator("#smart-search").getByPlaceholder(/לדוגמה/);
     await search.scrollIntoViewIfNeeded();
 
     await search.fill("בריכה");
@@ -42,7 +51,7 @@ test.describe("property map", () => {
 
   test("understands a natural-language query", async ({ page }) => {
     await page.goto("/");
-    const search = page.getByPlaceholder(/לדוגמה/);
+    const search = page.locator("#smart-search").getByPlaceholder(/לדוגמה/);
     await search.scrollIntoViewIfNeeded();
     await search.fill("דירה בתל אביב עד 3.5 מיליון עם מעלית");
     await expect(page.getByText("הבנו:")).toBeVisible(); // parsed constraints shown
@@ -51,7 +60,7 @@ test.describe("property map", () => {
 
   test("a map result links through to the property page", async ({ page }) => {
     await page.goto("/");
-    const search = page.getByPlaceholder(/לדוגמה/);
+    const search = page.locator("#smart-search").getByPlaceholder(/לדוגמה/);
     await search.fill("דיזנגוף");
     const item = page.getByTestId("result-item").first();
     await item.getByRole("link", { name: /צפייה בנכס/ }).click();
