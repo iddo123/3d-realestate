@@ -40,6 +40,15 @@ test.describe("property map", () => {
     await expect(page.getByTestId("result-item")).toHaveCount(0);
   });
 
+  test("understands a natural-language query", async ({ page }) => {
+    await page.goto("/");
+    const search = page.getByPlaceholder(/לדוגמה/);
+    await search.scrollIntoViewIfNeeded();
+    await search.fill("דירה בתל אביב עד 3.5 מיליון עם מעלית");
+    await expect(page.getByText("הבנו:")).toBeVisible(); // parsed constraints shown
+    await expect(page.getByTestId("result-count")).toContainText("נמצאו 1 נכסים");
+  });
+
   test("a map result links through to the property page", async ({ page }) => {
     await page.goto("/");
     const search = page.getByPlaceholder(/לדוגמה/);

@@ -12,6 +12,15 @@ describe("buildPropertyFacts", () => {
     expect(f["מחיר"]).toBe(property.price);
     expect(f["מאפיינים"]).toEqual(property.features);
   });
+
+  it("includes the enriched fields so the LLM can answer about them", () => {
+    const f = buildPropertyFacts(property);
+    expect(f["שנת בנייה"]).toBe(property.yearBuilt);
+    expect(f["ארנונה"]).toBe(property.arnona);
+    expect(f["דמי ועד בית"]).toBe(property.vaad);
+    expect(f["תאריך כניסה"]).toBe(property.entryDate);
+    expect(f["סוג נכס"]).toBe(property.propertyType);
+  });
 });
 
 describe("buildSystemPrompt", () => {

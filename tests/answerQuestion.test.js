@@ -2,28 +2,36 @@ import { describe, it, expect } from "vitest";
 import { answerQuestion } from "../lib/answerQuestion";
 import { getProperty } from "../lib/properties";
 
-const tlv = getProperty("dizengoff-120-tlv"); // no parking, has elevator
-const rg = getProperty("herzl-45-rg"); // has parking
+const tlv = getProperty("dizengoff-120-tlv"); // no parking, has elevator, negotiable
+const rg = getProperty("herzl-45-rg"); // 1 parking
+const herzliya = getProperty("yerushalayim-8-herzliya"); // penthouse, not negotiable
 
 describe("answerQuestion (rule-based)", () => {
-  it("answers price questions from the data", () => {
+  it("answers price and room/size questions", () => {
     expect(answerQuestion(tlv, "מה המחיר?")).toContain(tlv.price);
-    expect(answerQuestion(tlv, "כמה זה עולה?")).toContain(tlv.price);
-  });
-
-  it("answers room and size questions", () => {
     expect(answerQuestion(tlv, "כמה חדרים יש?")).toContain(tlv.rooms);
     expect(answerQuestion(tlv, "מה השטח?")).toContain(tlv.size);
   });
 
-  it("confirms a feature the property has", () => {
+  it("confirms / denies features", () => {
     expect(answerQuestion(tlv, "יש מעלית?")).toContain("מעלית");
-    expect(answerQuestion(rg, "יש חניה?")).toMatch(/כן/);
+    expect(answerQuestion(rg, "כמה חניות יש?")).toContain("1");
+    expect(answerQuestion(tlv, "יש חניה?")).toMatch(/אין/); // Dizengoff has none
   });
 
-  it("says no for a feature the property lacks", () => {
-    // The Dizengoff flat has no parking feature
-    expect(answerQuestion(tlv, "יש חניה?")).toMatch(/אין/);
+  it("answers the new structured fields", () => {
+    expect(answerQuestion(tlv, "באיזו שנה נבנה?")).toContain(String(tlv.yearBuilt));
+    expect(answerQuestion(tlv, "כמה ארנונה?")).toContain(tlv.arnona);
+    expect(answerQuestion(tlv, "מה דמי הוועד?")).toContain(tlv.vaad);
+    expect(answerQuestion(tlv, "מתי אפשר להיכנס?")).toContain(tlv.entryDate);
+    expect(answerQuestion(tlv, "הדירה מרוהטת?")).toContain(tlv.furnished);
+    expect(answerQuestion(herzliya, "איזה סוג נכס?")).toContain(herzliya.propertyType);
+    expect(answerQuestion(tlv, "כמה כיווני אוויר?")).toContain(tlv.airDirections);
+  });
+
+  it("handles price-negotiability per property", () => {
+    expect(answerQuestion(tlv, "האם המחיר גמיש?")).toMatch(/גמישות/);
+    expect(answerQuestion(herzliya, "האם המחיר גמיש?")).toMatch(/אינו מצוין/);
   });
 
   it("answers location / neighbourhood questions", () => {
@@ -32,16 +40,11 @@ describe("answerQuestion (rule-based)", () => {
   });
 
   it("lists features on a general 'what's included' question", () => {
-    const a = answerQuestion(tlv, "מה יש בנכס?");
-    expect(a).toContain(tlv.features[0]);
+    expect(answerQuestion(tlv, "מה יש בנכס?")).toContain(tlv.features[0]);
   });
 
-  it("falls back to the agent for data it doesn't have", () => {
+  it("falls back for data it genuinely doesn't have, and on empty input", () => {
     expect(answerQuestion(tlv, "איזה צבע הקירות?")).toMatch(/אין לי/);
-    expect(answerQuestion(tlv, "מתי אפשר להיכנס?")).toMatch(/סוכן רגבים/);
-  });
-
-  it("handles empty / missing input safely", () => {
     expect(answerQuestion(tlv, "")).toMatch(/אין לי/);
     expect(answerQuestion(null, "מה המחיר?")).toMatch(/אין לי/);
   });

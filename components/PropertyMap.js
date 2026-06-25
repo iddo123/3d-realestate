@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import "leaflet/dist/leaflet.css";
-import { properties, filterProperties } from "../lib/properties";
+import { properties } from "../lib/properties";
+import { searchProperties, summarizeQuery } from "../lib/search";
 
 const ISRAEL_CENTER = [31.6, 34.9];
 
@@ -16,7 +17,8 @@ export default function PropertyMap() {
   const [ready, setReady] = useState(false);
   const [query, setQuery] = useState("");
 
-  const results = useMemo(() => filterProperties(query), [query]);
+  const results = useMemo(() => searchProperties(query), [query]);
+  const chips = useMemo(() => summarizeQuery(query), [query]);
 
   // Initialise the Leaflet map once (client-only — Leaflet touches window).
   useEffect(() => {
@@ -105,15 +107,15 @@ export default function PropertyMap() {
     <section className="container-px py-16">
       <div className="mb-6 text-center">
         <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">
-          מפת נכסים
+          חיפוש חכם בטקסט חופשי
         </h2>
         <p className="mt-2 text-ink-soft">
-          חפשו נכסים על המפה וסננו בטקסט חופשי – עיר, שכונה, מאפיין ועוד
+          כתבו מה אתם מחפשים במשפט אחד – עיר, מספר חדרים, תקציב ומאפיינים
         </p>
       </div>
 
-      {/* Free-text filter */}
-      <div className="mx-auto mb-5 flex max-w-xl items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 shadow-card">
+      {/* Free-text natural-language filter */}
+      <div className="mx-auto mb-3 flex max-w-2xl items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 shadow-card">
         <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 shrink-0 text-ink-faint">
           <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
           <path d="m20 20-3.5-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -122,8 +124,8 @@ export default function PropertyMap() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="לדוגמה: תל אביב, מרפסת, 4 חדרים, בריכה…"
-          aria-label="חיפוש נכסים על המפה"
+          placeholder="לדוגמה: דירת 3 חדרים בתל אביב עם חניה עד 3.5 מיליון ₪"
+          aria-label="חיפוש חכם בטקסט חופשי"
           className="w-full bg-transparent py-1.5 text-[15px] text-ink placeholder:text-ink-faint focus:outline-none"
         />
         {query && (
@@ -136,6 +138,21 @@ export default function PropertyMap() {
           </button>
         )}
       </div>
+
+      {/* "Understood" chips — feedback that the natural language was parsed */}
+      {chips.length > 0 && (
+        <div className="mx-auto mb-5 flex max-w-2xl flex-wrap items-center justify-center gap-1.5">
+          <span className="text-xs text-ink-faint">הבנו:</span>
+          {chips.map((chip) => (
+            <span
+              key={chip}
+              className="rounded-full bg-teal-50 px-2.5 py-1 text-xs font-semibold text-teal-700"
+            >
+              {chip}
+            </span>
+          ))}
+        </div>
+      )}
 
       <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
         {/* Map */}
